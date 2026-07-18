@@ -1,5 +1,5 @@
 name: mcp-unifi
-url: https://github.com/pete-builds/mcp-unifi
+url: https://github.com/cmmarino-06/mcp-unifi-ha-addon
 maintainer: community
 arch:
   - amd64
