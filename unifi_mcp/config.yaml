@@ -1,5 +1,5 @@
 name: mcp-unifi
-version: 0.0.3
+version: 0.0.4
 slug: unifi_mcp
 description: >
   MCP server for UniFi Network — exposes local UniFi controller API
@@ -24,48 +24,25 @@ ports_description:
 # All option -> env var injection is handled by run.sh at container
 # start (parses /data/options.json with jq), not by a static
 # `environment:` block, since env values need to come from options.
+#
+# NOTE: Supervisor add-on config does NOT use JSON-Schema-style
+# {type: object, properties: {...}}. It uses its own flat DSL: a
+# top-level `options:` block holding default VALUES, and a separate
+# top-level `schema:` block holding TYPES ONLY as simple strings
+# (str, bool, password, str? for optional). Per-field descriptions
+# are not supported here — see DOCS.md for what each option does.
 options:
-  schema:
-    type: object
-    properties:
-      stub_mode:
-        type: boolean
-        default: true
-        description: >
-          Enable stub/demo mode (no real UniFi controller required).
-          Set false and fill UNIFI_HOST / UNIFI_API_KEY for real use.
-      unifi_host:
-        type: string
-        default: ""
-        example: "192.168.1.1"
-        description: >
-          Hostname or IP of your UniFi gateway/controller
-          (e.g. 192.168.1.1). Required when stub_mode is false.
-      unifi_api_key:
-        type: string
-        default: ""
-        description: >
-          UniFi local API key. Generate in the UniFi OS console under
-          System > API Keys. Required when stub_mode is false.
-      modules_enabled:
-        type: string
-        default: "network"
-        description: >
-          Comma-separated list of MCP modules to enable.
-          Defaults to "network". See upstream docs for available modules.
-      auth_tokens:
-        type: string
-        default: ""
-        example: "run: openssl rand -hex 32"
-        description: >
-          Required for the MCP HTTP transport's client authentication
-          (bearer token) — this is NOT a Cloudflare/DNS token despite
-          the upstream README's env var table entry; that description
-          was inaccurate. Generate a value with `openssl rand -hex 32`
-          and set it here. Passed as MCP_UNIFI_AUTH_TOKENS to the server.
-      controllers_file:
-        type: string
-        default: ""
-        description: >
-          Path to a JSON file listing multiple UniFi controllers
-          (for multi-site setups). Leave blank for single-controller use.
+  stub_mode: true
+  unifi_host: ""
+  unifi_api_key: ""
+  modules_enabled: "network"
+  auth_tokens: ""
+  controllers_file: ""
+
+schema:
+  stub_mode: bool
+  unifi_host: str?
+  unifi_api_key: password?
+  modules_enabled: str
+  auth_tokens: password?
+  controllers_file: str?
