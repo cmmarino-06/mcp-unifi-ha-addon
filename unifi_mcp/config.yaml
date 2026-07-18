@@ -1,5 +1,5 @@
 name: mcp-unifi
-version: 0.0.4
+version: 0.0.5
 slug: unifi_mcp
 description: >
   MCP server for UniFi Network — exposes local UniFi controller API
