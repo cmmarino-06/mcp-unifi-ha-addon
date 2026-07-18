@@ -70,5 +70,5 @@ options:
         description: >
           Path to a JSON file listing multiple UniFi controllers
           (for multi-site setups). Leave blank for single-controller use.
-  advanced: true
+  #advanced: true
 schema_json: '{"type":"object","properties":{"stub_mode":{"type":"boolean","default":true},"unifi_host":{"type":"string","default":""},"unifi_api_key":{"type":"string","default":""},"modules_enabled":{"type":"string","default":"network"},"auth_tokens":{"type":"string","default":""},"controllers_file":{"type":"string","default":""}},"required":["auth_tokens"]}'
