@@ -14,7 +14,7 @@ OPTIONS_FILE="/data/options.json"
 # when Supervisor starts the container; nothing to do for bare docker).
 if [ ! -f "$OPTIONS_FILE" ]; then
     echo "[run.sh] WARNING: $OPTIONS_FILE not found. Starting with defaults." >&2
-    exec python -m mcp_unifi.server
+    exec gosu mcp python -m mcp_unifi.server
 fi
 
 # Read each option; export only when non-empty (omit blank/optional fields).
@@ -39,4 +39,7 @@ MCP_UNIFI_AUTH_TOKENS="$(jq -r '.auth_tokens // ""' "$OPTIONS_FILE")"
 MCP_UNIFI_CONTROLLERS_FILE="$(jq -r '.controllers_file // ""' "$OPTIONS_FILE")"
 [ -n "$MCP_UNIFI_CONTROLLERS_FILE" ] && export MCP_UNIFI_CONTROLLERS_FILE
 
-exec python -m mcp_unifi.server
+# gosu preserves the exported environment across the user switch and
+# exec's the server as PID 1 (no wrapper process left behind), so
+# signals/Supervisor lifecycle still work correctly.
+exec gosu mcp python -m mcp_unifi.server
