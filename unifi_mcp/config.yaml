@@ -5,7 +5,7 @@ description: >
   MCP server for UniFi Network — exposes local UniFi controller API
   as Model Context Protocol tools for AI assistants. Runs as a
   Supervisor-managed add-on on Home Assistant OS.
-url: https://github.com/pete-builds/mcp-unifi
+url: https://github.com/cmmarino-06/mcp-unifi-ha-addon
 startup: application
 init: false
 # map to /app inside container – Supervisor writes options.json here
