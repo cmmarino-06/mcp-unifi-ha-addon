@@ -5,7 +5,7 @@ description: >
   MCP server for UniFi Network — exposes local UniFi controller API
   as Model Context Protocol tools for AI assistants. Runs as a
   Supervisor-managed add-on on Home Assistant OS.
-url: https://github.com/cmmarino-06/mcp-unifi-ha-addon
+url: https://github.com/pete-builds/mcp-unifi
 startup: application
 init: false
 # map to /app inside container – Supervisor writes options.json here
@@ -27,8 +27,6 @@ ports_description:
 options:
   schema:
     type: object
-    required:
-      - auth_tokens
     properties:
       stub_mode:
         type: boolean
@@ -60,15 +58,14 @@ options:
         default: ""
         example: '{"example.com": "cloudflare-token-value"}'
         description: >
-          JSON object of cloudflare-api-tokens for each domain when
-          MCP_UNIFI_MODULES_ENABLED includes "dns" or "cloudflare"
-          features. Stored encrypted. Passed as MCP_UNIFI_AUTH_TOKENS
-          to the server.
+          Optional. JSON object of cloudflare-api-tokens for each domain,
+          only needed when modules_enabled includes "dns" or "cloudflare"
+          features. Leave blank for standard UniFi network monitoring.
+          Stored encrypted. Passed as MCP_UNIFI_AUTH_TOKENS to the server.
       controllers_file:
         type: string
         default: ""
         description: >
           Path to a JSON file listing multiple UniFi controllers
           (for multi-site setups). Leave blank for single-controller use.
-  #advanced: true
-schema_json: '{"type":"object","properties":{"stub_mode":{"type":"boolean","default":true},"unifi_host":{"type":"string","default":""},"unifi_api_key":{"type":"string","default":""},"modules_enabled":{"type":"string","default":"network"},"auth_tokens":{"type":"string","default":""},"controllers_file":{"type":"string","default":""}},"required":["auth_tokens"]}'
+  advanced: true
