@@ -51,14 +51,14 @@ Open the add-on and fill in the options:
 | Field | Default | Required | Description |
 |---|---|---|---|
 | **stub_mode** | `true` | Yes | Demo mode with simulated devices. Set `false` for real use. |
-| **unifi_host** | `""` | Conditional | IP/hostname of your UniFi gateway (e.g. `192.168.1.1`) |
-| **unifi_api_key** | `""` | Conditional | Local API key from UniFi OS console |
+| **unifi_host** | `""` | Conditional | IP/hostname of your UniFi gateway (e.g. `192.168.1.1`). Required when stub_mode is false. |
+| **unifi_api_key** | `""` | Conditional | Local API key from UniFi OS console (System > API Keys). Required when stub_mode is false. |
 | **modules_enabled** | `network` | No | Comma-separated list of MCP modules |
-| **auth_tokens** | `""` | No | JSON `{"domain": "token"}` for Cloudflare DNS features |
+| **auth_tokens** | `""` | **Yes** | Bearer token for the MCP HTTP transport's client authentication. Generate with `openssl rand -hex 32`. Without this the server refuses to start. |
 | **controllers_file** | `""` | No | Path to multi-controller JSON file |
 
-- **stub_mode: true** (default) — no UniFi credentials needed.
-- **stub_mode: false** — fill in `unifi_host` and `unifi_api_key`.
+- **stub_mode: true** (default) — no UniFi credentials needed, but `auth_tokens` is still required.
+- **stub_mode: false** — also fill in `unifi_host` and `unifi_api_key`.
 
 ### Example (real UniFi controller)
 
@@ -67,7 +67,8 @@ stub_mode: false
 unifi_host: 192.168.1.1
 unifi_api_key: <your-local-api-key>
 modules_enabled: network
-auth_tokens: ""
+auth_tokens: <output of: openssl rand -hex 32>
+
 ```
 
 ---
