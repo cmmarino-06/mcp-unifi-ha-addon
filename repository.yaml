@@ -1,0 +1,13 @@
+name: mcp-unifi
+url: https://github.com/pete-builds/mcp-unifi
+maintainer: community
+arch:
+  - amd64
+  - aarch64
+description: >
+  Custom Home Assistant Supervisor add-on for pete-builds/mcp-unifi,
+  an MCP server exposing the UniFi Network API. This packages the
+  upstream container image as a managed HA add-on to avoid the
+  "Unsupported software" Repairs warning from a standalone docker run.
+  MCP tools exposed: device listing, client info, port forwarding,
+  network status, traffic analytics, and more via the local UniFi API.
