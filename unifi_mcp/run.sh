@@ -18,10 +18,15 @@ if [ ! -f "$OPTIONS_FILE" ]; then
 fi
 
 # Read each option; export only when non-empty (omit blank/optional fields).
-# jq -r returns the raw string value (no quotes). The '// ""' fallback
-# produces empty string for missing keys so the export still succeeds.
+# jq -r returns the raw string value (no quotes).
+#
+# NOTE: deliberately NOT using jq's `//` alternative operator for
+# stub_mode. `//` treats JSON `false` the same as `null`/missing and
+# substitutes the fallback — so `.stub_mode // true` would silently
+# turn an explicit `false` back into `true`. Use an explicit null
+# check instead so a real `false` value is respected.
 
-STUB_MODE="$(jq -r '.stub_mode // true' "$OPTIONS_FILE")"
+STUB_MODE="$(jq -r 'if .stub_mode == null then true else .stub_mode end' "$OPTIONS_FILE")"
 export STUB_MODE
 
 UNIFI_HOST="$(jq -r '.unifi_host // ""' "$OPTIONS_FILE")"
