@@ -14,15 +14,12 @@ arch:
   - amd64
   - aarch64
 ports:
-  3714/tcp:
-    description: >
-      MCP server HTTP port. Configure your AI assistant's MCP client
-      (e.g. Claude Desktop, Claude Code) to connect via
-      http://<home-assistant-ip>:3714/mcp using streamable-http transport.
-    host: 3714
-    container: 3714
+  3714/tcp: 3714
 ports_description:
-  3714/tcp: MCP server streamable-http endpoint
+  3714/tcp: >
+    MCP server HTTP port. Configure your AI assistant's MCP client
+    (e.g. Claude Desktop, Claude Code) to connect via
+    http://<home-assistant-ip>:3714/mcp using streamable-http transport.
 # No `image:` key — Supervisor builds unifi_mcp/Dockerfile locally.
 # All option -> env var injection is handled by run.sh at container
 # start (parses /data/options.json with jq), not by a static
