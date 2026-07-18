@@ -1,5 +1,5 @@
 name: mcp-unifi
-version: 0.0.2
+version: 0.0.3
 slug: unifi_mcp
 description: >
   MCP server for UniFi Network — exposes local UniFi controller API
@@ -56,16 +56,16 @@ options:
       auth_tokens:
         type: string
         default: ""
-        example: '{"example.com": "cloudflare-token-value"}'
+        example: "run: openssl rand -hex 32"
         description: >
-          Optional. JSON object of cloudflare-api-tokens for each domain,
-          only needed when modules_enabled includes "dns" or "cloudflare"
-          features. Leave blank for standard UniFi network monitoring.
-          Stored encrypted. Passed as MCP_UNIFI_AUTH_TOKENS to the server.
+          Required for the MCP HTTP transport's client authentication
+          (bearer token) — this is NOT a Cloudflare/DNS token despite
+          the upstream README's env var table entry; that description
+          was inaccurate. Generate a value with `openssl rand -hex 32`
+          and set it here. Passed as MCP_UNIFI_AUTH_TOKENS to the server.
       controllers_file:
         type: string
         default: ""
         description: >
           Path to a JSON file listing multiple UniFi controllers
           (for multi-site setups). Leave blank for single-controller use.
-  advanced: true
